@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "importHelpers": true,
+        "experimentalDecorators": true,
+        "target": "esnext",
+        "jsx": "react",
+        "noEmit": true,
+        "moduleResolution": "node",
+        "baseUrl": ".",
+        "paths": {
+            "@src/*": [
+                "./src/*"
+            ]
+        },
+        "lib": [
+            "esnext"
+        ]
+    },
+    "include": [
+        "types/**/*.d.ts",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

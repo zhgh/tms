@@ -120,5 +120,57 @@ export default [
             getTypescriptplugin(),
             ...plugins
         ]
+    },
+    // react-tms
+    {
+        input: 'packages/react-tms/src/index.tsx',
+        output: {
+            name: 'ReactTms',
+            file: 'packages/react-tms/dist/react-tms.js',
+            format: 'umd'
+        },
+        external: ['react', 'tms'],
+        plugins: [
+            getTypescriptplugin(),
+            ...plugins
+        ]
+    },
+    {
+        input: 'packages/react-tms/src/index.tsx',
+        output: {
+            name: 'ReactTms',
+            file: 'packages/react-tms/dist/react-tms.min.js',
+            format: 'umd'
+        },
+        external: ['react', 'tms'],
+        plugins: [
+            getTypescriptplugin(),
+            ...plugins,
+            uglify()
+        ]
+    },
+    {
+        input: 'packages/react-tms/src/index.tsx',
+        output: {
+            file: 'packages/react-tms/dist/react-tms.esm.js',
+            format: 'es'
+        },
+        external: ['react', 'tms'],
+        plugins: [
+            getTypescriptplugin(),
+            ...plugins
+        ]
+    },
+    {
+        input: 'packages/react-tms/src/index.tsx',
+        output: {
+            file: 'packages/react-tms/dist/react-tms.common.js',
+            format: 'cjs'
+        },
+        external: ['react', 'tms'],
+        plugins: [
+            getTypescriptplugin(),
+            ...plugins
+        ]
     }
 ];
