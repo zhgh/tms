@@ -1,17 +1,20 @@
-import * as React from 'react';
 import Tms, { TmsDepNotifyParams } from '@fmfe/tms.js';
+export { createContext, forEachTms, command } from './helper';
 export interface ReactTmsDepNotifyParams extends TmsDepNotifyParams {
     position: string;
     time: number;
 }
-declare type GetProps<T> = <Props, Props2>(Component: React.ComponentType<Props & Props2>, getProps: (store: T) => Props2) => React.ComponentType<Props>;
-interface Returns<T> {
-    getProvider: <C>(C: C) => C;
-    getProps: GetProps<T>;
+export interface ReactTmsOptions {
+    isDebugLog?: boolean;
 }
-export declare const forEachTms: (store: any, fn: (tms: Tms) => void) => void;
-export declare function createContext<T>(Store: {
-    new (...args: any[]): T;
-}): Returns<T>;
-export declare function command(store: any, path: string, ...payloads: any[]): void;
-export {};
+declare type SubFunc = (event: ReactTmsDepNotifyParams) => void;
+export default class ReactTms extends Tms {
+    private onList;
+    private subs;
+    private options;
+    constructor(options?: ReactTmsOptions);
+    run(): this;
+    subscribe(fn: SubFunc): this;
+    unsubscribe(fn: SubFunc): this;
+    destroy(): this;
+}

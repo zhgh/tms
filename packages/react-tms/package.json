@@ -13,7 +13,7 @@
         "README.md"
     ],
     "scripts": {
-        "build:types": "npx rimraf ./types && tsc src/index.tsx -D --declarationDir ./types --t es5 --outDir dist --jsx react"
+        "build:types": "npx rimraf ./types && tsc src/index.ts -D --declarationDir ./types --t es5 --outDir dist --jsx react"
     },
     "repository": {
         "type": "git",

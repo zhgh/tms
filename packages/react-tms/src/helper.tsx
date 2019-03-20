@@ -1,11 +1,6 @@
 import * as React from 'react';
-import Tms, { TmsDepNotifyParams } from '@fmfe/tms.js';
+import Tms from '@fmfe/tms.js';
 const hoistNonReactStatics = require('hoist-non-react-statics');
-
-export interface ReactTmsDepNotifyParams extends TmsDepNotifyParams {
-    position: string;
-    time: number;
-}
 
 interface State<T> {
     count: number;

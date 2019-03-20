@@ -123,7 +123,7 @@ export default [
     },
     // react-tms
     {
-        input: 'packages/react-tms/src/index.tsx',
+        input: 'packages/react-tms/src/index.ts',
         output: {
             name: 'ReactTms',
             file: 'packages/react-tms/dist/react-tms.js',
@@ -136,7 +136,7 @@ export default [
         ]
     },
     {
-        input: 'packages/react-tms/src/index.tsx',
+        input: 'packages/react-tms/src/index.ts',
         output: {
             name: 'ReactTms',
             file: 'packages/react-tms/dist/react-tms.min.js',
@@ -150,7 +150,7 @@ export default [
         ]
     },
     {
-        input: 'packages/react-tms/src/index.tsx',
+        input: 'packages/react-tms/src/index.ts',
         output: {
             file: 'packages/react-tms/dist/react-tms.esm.js',
             format: 'es'
@@ -162,7 +162,7 @@ export default [
         ]
     },
     {
-        input: 'packages/react-tms/src/index.tsx',
+        input: 'packages/react-tms/src/index.ts',
         output: {
             file: 'packages/react-tms/dist/react-tms.common.js',
             format: 'cjs'

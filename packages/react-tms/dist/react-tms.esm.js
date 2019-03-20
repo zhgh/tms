@@ -1,6 +1,12 @@
 import { createContext, createElement, Component } from 'react';
 import Tms from '@fmfe/tms.js';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
+
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -61,6 +67,16 @@ var possibleConstructorReturn = function (self, call) {
   }
 
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
+};
+
+var toConsumableArray = function (arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
 };
 
 var hoistNonReactStatics = require('hoist-non-react-statics');
@@ -194,4 +210,91 @@ function command(store, path) {
     }
 }
 
-export { forEachTms, createContext$1 as createContext, command };
+var getType = function getType(payload) {
+    return Object.prototype.toString.call(payload).replace(/^(.*?) |]$/g, '').toLowerCase();
+};
+
+var ReactTms = function (_Tms) {
+    inherits(ReactTms, _Tms);
+
+    function ReactTms() {
+        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        classCallCheck(this, ReactTms);
+
+        var _this = possibleConstructorReturn(this, (ReactTms.__proto__ || Object.getPrototypeOf(ReactTms)).call(this));
+
+        _this.onList = [];
+        _this.subs = [];
+        _this.options = { isDebugLog: false };
+        if (typeof options.isDebugLog === 'boolean') {
+            _this.options.isDebugLog = options.isDebugLog;
+        }
+        return _this;
+    }
+
+    createClass(ReactTms, [{
+        key: 'run',
+        value: function run() {
+            var _this2 = this;
+
+            Object.defineProperty(this, 'subs', {
+                enumerable: false
+            });
+            Object.defineProperty(this, 'onList', {
+                enumerable: false
+            });
+            var observeTms = function observeTms(opts, paths) {
+                Object.keys(opts).forEach(function (k) {
+                    var item = opts[k];
+                    if (item instanceof Tms) {
+                        var onChage = function onChage(event) {
+                            var position = '' + paths.concat([k, event.type]).join('.');
+                            if (_this2.options.isDebugLog && console) {
+                                // eslint-disable-next-line
+                                console.log('position   ' + position + '(payload: ' + getType(event.payload) + ');', '\n\rpayload   ', _typeof(event.payload) === 'object' ? JSON.parse(JSON.stringify(event.payload)) : event.payload, '\n\rpayloads  ', JSON.parse(JSON.stringify(event.payloads)), '\n\rtarget    ', event.target, '\n\r---');
+                            }
+                            _this2.subs.forEach(function (fn) {
+                                return fn(_extends({}, event, {
+                                    position: position,
+                                    time: Date.now()
+                                }));
+                            });
+                        };
+                        item.dep.addSub(onChage);
+                        _this2.onList.push({
+                            target: item,
+                            onChage: onChage
+                        });
+                        observeTms(item, [].concat(toConsumableArray(paths), [k]));
+                    }
+                });
+            };
+            observeTms(this, []);
+            return this;
+        }
+    }, {
+        key: 'subscribe',
+        value: function subscribe(fn) {
+            this.subs.push(fn);
+            return this;
+        }
+    }, {
+        key: 'unsubscribe',
+        value: function unsubscribe(fn) {
+            var index = this.subs.indexOf(fn);
+            this.subs.splice(index, 1);
+            return this;
+        }
+    }, {
+        key: 'destroy',
+        value: function destroy() {
+            this.onList.splice(0, this.onList.length);
+            this.subs.splice(0, this.subs.length);
+            return this;
+        }
+    }]);
+    return ReactTms;
+}(Tms);
+
+export default ReactTms;
+export { createContext$1 as createContext, forEachTms, command };
