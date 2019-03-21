@@ -6,19 +6,19 @@ class Count extends Tms {
 
     public $add(): void {
         this.sum ++;
-        console.log(this.sum, '++++++++')
     }
 
     public $subtract(): void {
         this.sum --;
-        console.log(this.sum, '-------')
     }
 }
 
 class Store extends ReactTms {
     public count: Count;
     constructor() {
-        super();
+        super({
+            isDebugLog: true
+        });
         this.count = new Count();
 
         this.run();

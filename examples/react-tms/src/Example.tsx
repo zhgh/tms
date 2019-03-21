@@ -1,21 +1,14 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { ReactTmsStore } from './store/index';
 import './Example.css';
 
 interface ExampleProps {}
 interface ExampleTmsProps {
-  Count: any;
+  sum: number;
   count: any;
 }
 
-class Example extends Component<ExampleProps & ExampleTmsProps> {
-  
-  componentWillReceiveProps(nextProps: any) {
-    console.log(JSON.stringify(nextProps), "--111---")
-  }
-  componentDidUpdate() {
-    console.log(this.state, '========')
-  }
+class Example extends PureComponent<ExampleProps & ExampleTmsProps> {
 
   add = () => {
     this.props.count.$add();
@@ -26,10 +19,9 @@ class Example extends Component<ExampleProps & ExampleTmsProps> {
   }
   
   render() {
-    const { count } = this.props;
     return (
       <div>
-        <p>sum is: {count.sum}</p>
+        <p>sum is: {this.props.sum}</p>
         <button onClick={this.add} className="btn">add</button>
         <button onClick={this.sub} className="btn">subtract</button>
       </div>
@@ -39,9 +31,8 @@ class Example extends Component<ExampleProps & ExampleTmsProps> {
 
 export default  ReactTmsStore.getProps<ExampleProps, ExampleTmsProps>(Example, (store): ExampleTmsProps => {
   const count = store.count;
-  console.log(count, '------')
   return {
-    Count: store.count,
-    count
+    count,
+    sum: count.sum
   }
 })
